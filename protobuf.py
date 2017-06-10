@@ -2,16 +2,7 @@
 Script for executing protoc using a docker container
 """
 import os
-from collections import namedtuple
-
-Language = namedtuple('Language', ['docker_image', 'out_arg', 'grpc_plugin'])
-
-CPP = Language(
-    docker_image='grpc/cxx',
-    out_arg='cpp_out',
-    grpc_plugin='/usr/local/bin/grpc_cpp_plugin'
-)
-
+import language_specs
 
 class Protoc(object):
 
@@ -25,8 +16,8 @@ class Protoc(object):
     def cpp(self, proto_file):
         "Compile a proto file to CPP"
         print "Compiling %s to CPP" % proto_file
-        self._compile_messages(lang=CPP, proto_file=proto_file)
-        self._compile_rpc_services(lang=CPP, proto_file=proto_file)
+        self._compile_messages(lang=language_specs.CPP, proto_file=proto_file)
+        self._compile_rpc_services(lang=language_specs.CPP, proto_file=proto_file)
 
     def _compile_messages(self, lang, proto_file):
         "Compile messages"
